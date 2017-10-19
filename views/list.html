@@ -30,7 +30,7 @@
                 {% endif %}
                 <td>{{ state.stateVotes }}</td>
                 {% if state.stateImg %}
-                <td><a href="/add/{{state.id}}"><img src="{{state.stateImg}}" width=30 height=30></a></td>
+                <td class="text-center"><a href="/add/{{state.id}}"><img src="{{state.stateImg}}" width=30 height=30></a></td>
                 {% else %}
                 <td class="text-center"><a href="/add/{{state.id}}" class="btn btn-primary">添加图片</a></td>
                 {% endif %}
