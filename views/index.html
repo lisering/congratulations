@@ -1,0 +1,103 @@
+{% extends "layout.html" %}
+{% block title %}
+阳光15周年庆
+{% endblock %}
+{% block content %}
+<div class="container body">
+    <form id="search">
+        <div class="form-group">
+            <select name="area" id="area" class="form-control">
+                <option value="所有大区">所有大区</option>
+                {% for area in areas %}
+                <option value="{{area}}">{{area}}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" name="state" id="state" placeholder="站点名称">
+        </div>
+    </form>
+    <ul class="list-unstyled statelist" id="statelist">
+        {% for state in states %}
+            <li>
+                <div class="title clearfix">
+                    <div class="pull-left">
+                        <span>{{state.areaName}} - {{state.stateName}}</span>
+                    </div>
+                    <div class="pull-right">
+                        票数：
+                        <span class="vote">{{state.stateVotes}}</span>
+                    </div>
+                </div>
+                <div class="posr">
+                    <img src="{{state.stateImg}}" class="img-responsive">
+                    <div class="posa btn btn-success btn-lg votepos">
+                        <a href="javascript:;" rel="{{state.stateName}}" class="glyphicon glyphicon-thumbs-up votebtn">投票</a>
+                    </div>
+                </div>
+                <p class="text-muted">{{state.stateDescription}}</p>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+<script>
+    function getQueryString(query) {
+        var strObj = {};
+        var strArr = location.search.slice(1).split('&');
+        $.each(strArr, function(i, v) {
+            arr = v.split('=');
+            strObj[arr[0]] = arr[1];
+        });
+        if (strObj[query]) {
+            return strObj[query];
+        }
+        return null;
+    }
+    var openId = getQueryString('openid');
+    function vote(e) {
+        e.preventDefault();
+        if (openId) {
+            var $this = $(e.target);
+            var stateName = $this.attr('rel');
+            $.getJSON('/vote', {stateName: stateName, openId: openId}, function(data) {
+                if (data.message === 'success') {
+                    voteDom = $this.closest('li').find('.vote'),
+                    vote = parseInt(voteDom.html(), 10) + 1;
+                    voteDom.html(vote);
+                    alert('您为“'+stateName+'”投票成功！');
+                }
+                if (data.message === 'failed'){
+                    return alert('您已经为“'+stateName+'”投过票了！');
+                }
+            });
+        } else {
+            alert('非法用户！');
+        }
+    }
+    $('.votebtn').on('click', vote);
+
+    //搜索
+    function search(areaName, stateName) {
+        $.getJSON('/search', {area: areaName, state: stateName} ,function(data) {
+            if (!data.error) {
+                var str = '';
+                $.each(data.states, function(i, item) {
+                    str+='<li><div class="title clearfix"><div class="pull-left"><span>' + item.areaName + '</span><span>－</span><span>' + item.stateName + '</span></div><div class="pull-right">票数：<span class="vote">' + item.stateVotes + '</span></div></div><div class="posr"><img class="img-responsive" src="' + item.stateImg + '"><div class="posa btn btn-success btn-lg votepos"><a class="glyphicon glyphicon-thumbs-up votebtn" href="javascript:;" rel="'+item.stateName+'">投票</a></div></div><p class="text-muted">' + item.stateDescription + '</p></li>';
+                });
+                $('.votebtn').off('click', vote);
+                $('#statelist').html(str);
+                $('.votebtn').on('click', vote);
+            }
+        });
+    }
+    //搜索大区
+    $('#area').on('change', function (e) {
+        $('#state').val('');
+        search($(this).val(), $('#state').val());
+    });
+    //在大区下搜索站点
+    $('#state').on('input', function (e) {
+        search($('#area').val(), $(this).val());
+    });
+</script>
+{% endblock %}

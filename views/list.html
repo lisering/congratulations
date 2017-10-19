@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+{% block title %}
+阳光15周年庆站点投票情况
+{% endblock %}
+{% block content %}
+<div class="container">
+    <h3 class="text-center">联想阳光15周年庆—站点投票</h3>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th><a href="/order/id/desc" class="order">序号</a></th>
+                <th><a href="/order/areaName/desc" class="order">所属大区</a></th>
+                <th><a href="/order/stateName/desc" class="order">站点名称</a></th>
+                <th><a href="/order/stateDescription/desc" class="order">站点描述</a></th>
+                <th><a href="/order/stateVotes/desc" class="order">票数</a></th>
+                <th class="text-center"><a href="/order/stateImg/desc" class="order">站点图片</a></th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+            {% for state in states %}
+            <tr>
+                <td>{{ state.id }}</td>
+                <td>{{ state.areaName }}</td>
+                <td>{{ state.stateName }}</td>
+                {% if state.stateDescription %}
+                <td><a href="/add/{{state.id}}" class="inline-block ellipsis" alt="{{state.stateDescription}}" title="{{ state.stateDescription }}">{{ state.stateDescription }}</a></td>
+                {% else %}
+                <td><a href="/add/{{state.id}}" class="btn btn-primary">添加描述</a></td>
+                {% endif %}
+                <td>{{ state.stateVotes }}</td>
+                {% if state.stateImg %}
+                <td><a href="/add/{{state.id}}"><img src="{{state.stateImg}}" width=30 height=30></a></td>
+                {% else %}
+                <td class="text-center"><a href="/add/{{state.id}}" class="btn btn-primary">添加图片</a></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<script>
+    $('.order').on('click', order);
+    function order(e) {
+      e.preventDefault();
+      var $this = $(this);
+      var href = $this.attr('href');
+      $.getJSON(href, function(data) {
+        var str = '';
+        $.each(data, function(i, item) {
+          var stateImgHTML = '',
+          stateDescriptionHTML = '';
+          if (item.stateImg) {
+            stateImgHTML = '<a href="/addstate?id='+item.id+'&statename='+item.stateName+'&areaname='+item.areaName+'"><img src="'+item.stateImg+'" width="30" height="30"></a>';
+          } else {
+            stateImgHTML = '<a class="btn btn-primary" href="/addstate?id='+item.id+'&statename='+item.stateName+'&areaname='+item.areaName+'">增加图片</a>';
+          }
+          if (item.stateDescription) {
+            stateDescriptionHTML = '<a class="inline-block ellipsis" href="/addstate?id='+item.id+'&statename='+item.stateName+'&areaname='+item.areaName+'" alt="'+item.stateDescription+'" title="'+item.stateDescription+'">'+item.stateDescription+'</a>';
+          } else {
+            stateDescriptionHTML = '<a class="btn btn-primary" href="/addstate?id='+item.id+'&statename='+item.stateName+'&areaname='+item.areaName+'">添加描述</a>';
+          }
+          str += '<tr>'+
+                     '<td>'+item.id+'</td>'+
+                     '<td>'+item.areaName+'</td>'+
+                     '<td>'+item.stateName+'</td>'+
+                     '<td>' + stateDescriptionHTML + '</td>' + 
+                     '<td>'+item.stateVotes+'</td>'+
+                     '<td class="text-center">'+ stateImgHTML +
+                     '</td></tr>';
+        });
+        $('#tbody').html(str);
+        if (href.indexOf('desc') !== -1) {
+          $this.attr('href', href.replace('desc', 'asc'));
+        } else {
+          $this.attr('href', href.replace('asc', 'desc'));
+        }
+      });
+    }
+</script>
+{% endblock %}
