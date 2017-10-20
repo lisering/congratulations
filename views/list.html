@@ -3,6 +3,7 @@
 阳光15周年庆站点投票情况
 {% endblock %}
 {% block content %}
+<body>
 <div class="container">
     <h3 class="text-center">联想阳光15周年庆—站点投票</h3>
     <hr>
@@ -51,14 +52,14 @@
           var stateImgHTML = '',
           stateDescriptionHTML = '';
           if (item.stateImg) {
-            stateImgHTML = '<a href="/addstate?id='+item.id+'&statename='+item.stateName+'&areaname='+item.areaName+'"><img src="'+item.stateImg+'" width="30" height="30"></a>';
+            stateImgHTML = '<a href="/add/id='+item.id+'"><img src="'+item.stateImg+'" width="30" height="30"></a>';
           } else {
-            stateImgHTML = '<a class="btn btn-primary" href="/addstate?id='+item.id+'&statename='+item.stateName+'&areaname='+item.areaName+'">增加图片</a>';
+            stateImgHTML = '<a class="btn btn-primary" href="/add/id='+item.id+'">增加图片</a>';
           }
           if (item.stateDescription) {
-            stateDescriptionHTML = '<a class="inline-block ellipsis" href="/addstate?id='+item.id+'&statename='+item.stateName+'&areaname='+item.areaName+'" alt="'+item.stateDescription+'" title="'+item.stateDescription+'">'+item.stateDescription+'</a>';
+            stateDescriptionHTML = '<a class="inline-block ellipsis" href="/add/id='+item.id+'" alt="'+item.stateDescription+'" title="'+item.stateDescription+'">'+item.stateDescription+'</a>';
           } else {
-            stateDescriptionHTML = '<a class="btn btn-primary" href="/addstate?id='+item.id+'&statename='+item.stateName+'&areaname='+item.areaName+'">添加描述</a>';
+            stateDescriptionHTML = '<a class="btn btn-primary" href="/add/id='+item.id+'">添加描述</a>';
           }
           str += '<tr>'+
                      '<td>'+item.id+'</td>'+
@@ -78,4 +79,5 @@
       });
     }
 </script>
+</body>
 {% endblock %}

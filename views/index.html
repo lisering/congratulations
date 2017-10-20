@@ -3,7 +3,12 @@
 阳光15周年庆
 {% endblock %}
 {% block content %}
-<div class="container body">
+<body class="body">
+<div class="modals text-center hide" id="modal1">
+    <img src="../images/share.png" class="img-responsive">
+</div>
+<img src="../images/cb.jpg" class="img-responsive">
+<div class="container">
     <form id="search">
         <div class="form-group">
             <select name="area" id="area" class="form-control">
@@ -30,12 +35,13 @@
                     </div>
                 </div>
                 <div class="posr">
-                    <img src="{{state.stateImg}}" class="img-responsive">
-                    <div class="posa btn btn-success btn-lg votepos">
-                        <a href="javascript:;" rel="{{state.stateName}}" class="glyphicon glyphicon-thumbs-up votebtn">投票</a>
+                    <img src="{{state.stateImg}}" class="stateimg img-responsive">
+                    <div class="posa votepos">
+                        <a href="javascript:;" class="btn btn-info btn-lg glyphicon glyphicon-share lp">拉票</a>&nbsp;&nbsp;
+                        <a href="javascript:;" rel="{{state.stateName}}" class="btn btn-success btn-lg glyphicon glyphicon-thumbs-up votebtn">投票</a>
                     </div>
                 </div>
-                <p class="text-muted">{{state.stateDescription}}</p>
+                <!-- <p class="text-muted">{{state.stateDescription}}</p> -->
             </li>
         {% endfor %}
     </ul>
@@ -99,5 +105,15 @@
     $('#state').on('input', function (e) {
         search($('#area').val(), $(this).val());
     });
+
+    //拉票
+    $('.lp').on('click', function(e) {
+        e.preventDefault();
+        $('#modal1').removeClass('hide');
+    });
+    $('#modal1').on('click', function(e) {
+        $(this).addClass('hide');
+    });
 </script>
 {% endblock %}
+</body>
