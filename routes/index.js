@@ -113,7 +113,7 @@ router.post('/poststate', (req, res, next) => {
       let stateData = {
         areaName: body.areaname,
         stateName: body.statename,
-        stateImg: !!file ? file.path.replace('public', '').repalce('\\', '/') : req.body.oldstateimg,
+        stateImg: !!file ? file.path.replace('public', '').repalce(/\\/g, '/') : req.body.oldstateimg,
         stateDescription: body.statedescription
       };
       let sql = 'UPDATE state SET ? WHERE id="' + req.body.stateid + '"';
