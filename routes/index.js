@@ -10,7 +10,7 @@ var storage = multer.diskStorage({
         cb(null, 'public/images');
     },
     filename: function (req, file, cb) {
-        cb(null, file.fieldname + '-' + Date.now() + file.originalname)
+        cb(null, file.fieldname + '-' + Date.now() + file.originalname);
     }
 });
   
@@ -132,7 +132,7 @@ router.post('/poststate', (req, res, next) => {
 router.get('/order/:orderby/:order', cache(10), (req, res, next) => {
     setTimeout(() => {
         var areaName = req.query.areaname;
-        var sqlStr = '';
+        var sqlStr = ' ';
         if (areaName !== '所有大区') {
             sqlStr = ' WHERE areaName="' + areaName + '" ';
         }

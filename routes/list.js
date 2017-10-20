@@ -16,7 +16,6 @@ router.get('/', cache(10), function(req, res, next) {
                 area.add(i.areaName);
             });
           res.render('list', {states: result, areas: [...area]});
-          console.log(result);
       });
   }, 500)
 });
