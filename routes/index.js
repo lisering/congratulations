@@ -131,16 +131,21 @@ router.post('/poststate', (req, res, next) => {
 //排序
 router.get('/order/:orderby/:order', cache(10), (req, res, next) => {
     setTimeout(() => {
+        var areaName = req.query.areaname;
+        var sqlStr = '';
+        if (areaName !== '所有大区') {
+            sqlStr = ' WHERE areaName="' + areaName + '" ';
+        }
         var orderBy = req.params.orderby;
         var order = req.params.order;
         var sql;
         switch (orderBy) {
             case 'id':
             case 'stateImg':
-                sql = `SELECT * FROM state ORDER BY ${orderBy} ${order}`;
+                sql = `SELECT * FROM state${sqlStr}ORDER BY ${orderBy} ${order}`;
                 break;
             default:
-                sql = `SELECT * FROM state ORDER BY CONVERT(${orderBy} USING GBK) ${order}`;
+                sql = `SELECT * FROM state${sqlStr}ORDER BY CONVERT(${orderBy} USING GBK) ${order}`;
         }
         let query = db.query(sql, (err, result) => {
             if (err) {

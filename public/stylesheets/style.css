@@ -135,4 +135,10 @@ th .order:active {
   height: 100%;
   z-index: 99; }
 
+.gradient {
+  background: -webkit-linear-gradient(#f12733, #fc713e);
+  background: -o-linear-gradient(#f12733, #fc713e);
+  background: -moz-linear-gradient(#f12733, #fc713e);
+  background: linear-gradient(#f12733, #fc713e); }
+
 /*# sourceMappingURL=style.css.map */

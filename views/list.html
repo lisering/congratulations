@@ -6,7 +6,19 @@
 <body>
 <div class="container">
     <h3 class="text-center">联想阳光15周年庆—站点投票</h3>
-    <hr>
+    <form id="search">
+      <div class="form-group">
+          <select name="area" id="area" class="form-control">
+              <option value="所有大区">所有大区</option>
+              {% for area in areas %}
+              <option value="{{area}}">{{area}}</option>
+              {% endfor %}
+          </select>
+      </div>
+      <div class="form-group">
+          <input type="text" class="form-control" name="state" id="state" placeholder="站点名称">
+      </div>
+    </form>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -42,11 +54,17 @@
 </div>
 <script>
     $('.order').on('click', order);
+
     function order(e) {
       e.preventDefault();
-      var $this = $(this);
+      var area = $('#area').val();
+      var state = $('#state').val();
+      if (state.length !== 0) {
+        return;
+      }
+      var $this = $(e.target);
       var href = $this.attr('href');
-      $.getJSON(href, function(data) {
+      $.getJSON(href, {areaname: area}, function(data) {
         var str = '';
         $.each(data, function(i, item) {
           var stateImgHTML = '',
@@ -78,6 +96,48 @@
         }
       });
     }
+    //搜索
+    function search(areaName, stateName) {
+        $.getJSON('/search', {area: areaName, state: stateName} ,function(data) {
+            if (!data.error) {
+              var str = '';
+              $.each(data.states, function(i, item) {
+                var stateImgHTML = '',
+                stateDescriptionHTML = '';
+                if (item.stateImg) {
+                  stateImgHTML = '<a href="/add/'+item.id+'"><img src="'+item.stateImg+'" width="30" height="30"></a>';
+                } else {
+                  stateImgHTML = '<a class="btn btn-primary" href="/add/'+item.id+'">增加图片</a>';
+                }
+                if (item.stateDescription) {
+                  stateDescriptionHTML = '<a class="inline-block ellipsis" href="/add/'+item.id+'" alt="'+item.stateDescription+'" title="'+item.stateDescription+'">'+item.stateDescription+'</a>';
+                } else {
+                  stateDescriptionHTML = '<a class="btn btn-primary" href="/add/'+item.id+'">添加描述</a>';
+                }
+                str += '<tr>'+
+                          '<td>'+item.id+'</td>'+
+                          '<td>'+item.areaName+'</td>'+
+                          '<td>'+item.stateName+'</td>'+
+                          '<td>' + stateDescriptionHTML + '</td>' + 
+                          '<td>'+item.stateVotes+'</td>'+
+                          '<td class="text-center">'+ stateImgHTML +
+                          '</td></tr>';
+              });
+              $('.order').off('click', order);
+              $('#tbody').html(str);
+              $('.order').on('click', order);
+            }
+        });
+    }
+    //搜索大区
+    $('#area').on('change', function (e) {
+      $('#state').val('');
+      search($(this).val(), $('#state').val());
+    });
+    //在大区下搜索站点
+    $('#state').on('input', function (e) {
+        search($('#area').val(), $(this).val());
+    });
 </script>
 </body>
 {% endblock %}

@@ -11,7 +11,11 @@ router.get('/', cache(10), function(req, res, next) {
           if (err) {
               console.log(err);
           }
-          res.render('list', {states: result});
+        let area = new Set();
+            result.forEach((i, v) => {
+                area.add(i.areaName);
+            });
+          res.render('list', {states: result, areas: [...area]});
           console.log(result);
       });
   }, 500)
