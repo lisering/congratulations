@@ -68,7 +68,7 @@
         if ($this.attr('disabled')) {
             return alert('您已经为“'+stateName+'”投过票了！');
         }
-        $(e.target).attr('disbled', true);
+        $(e.target).attr('disabled', 'disabled');
         if (openId) {
             $.getJSON('/vote', {stateName: stateName, openId: openId}, function(data) {
                 if (data.message === 'success') {
