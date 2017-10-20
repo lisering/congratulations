@@ -6,15 +6,15 @@ var multer = require('multer');
 var cache = require('../cache/cache');
 
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, 'public/images');
-  },
-  filename: function (req, file, cb) {
-    cb(null, file.filename + '-' + Date.now() + file.originalname);
-  }
+    destination: function (req, file, cb) {
+        cb(null, 'public/images');
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.fieldname + '-' + Date.now() + file.originalname)
+    }
 });
-
-var upload = multer({storage: storage}).single('stateimg');
+  
+var upload = multer({ storage: storage }).single('stateimg');
 /* GET stateList page. */
 router.get('/', cache(10), (req, res, next) => {
     setTimeout(() => {

@@ -20,13 +20,13 @@
         <div class="form-group">
             {% if state.stateImg %}
             <label for="stateimg" class="file">站点图片：
-                <img src="{{state.stateImg}}" id="preview" class="img-responsive">
+                <img src="../{{state.stateImg}}" id="preview" class="img-responsive">
                 <input type="file" class="form-control" required name="stateimg" id="stateimg" accept="image/*">
                 <span class="hide filebtn form-control" id="filebtn">站点图片(要换一张请点击图片)</span>
             </label>
             {% else %}
             <label for="stateimg" class="file">站点图片：
-                <img id="preview" class="img-responsive">
+                <img src="../{{state.stateImg}}" id="preview" class="img-responsive">
                 <input type="file" class="form-control" required name="stateimg" id="stateimg" accept="image/*">
                 <span class="filebtn form-control" id="filebtn">选择站点图片</span>
             </label>

@@ -14,7 +14,7 @@ router.get('/:id', cache(10), function(req, res, next) {
           }
           res.render('add', { state: result[0] });
       });
-  }, 500)
+  }, 500);
 });
 
 module.exports = router;

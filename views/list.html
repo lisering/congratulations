@@ -52,14 +52,14 @@
           var stateImgHTML = '',
           stateDescriptionHTML = '';
           if (item.stateImg) {
-            stateImgHTML = '<a href="/add/id='+item.id+'"><img src="'+item.stateImg+'" width="30" height="30"></a>';
+            stateImgHTML = '<a href="/add/'+item.id+'"><img src="'+item.stateImg+'" width="30" height="30"></a>';
           } else {
-            stateImgHTML = '<a class="btn btn-primary" href="/add/id='+item.id+'">增加图片</a>';
+            stateImgHTML = '<a class="btn btn-primary" href="/add/'+item.id+'">增加图片</a>';
           }
           if (item.stateDescription) {
-            stateDescriptionHTML = '<a class="inline-block ellipsis" href="/add/id='+item.id+'" alt="'+item.stateDescription+'" title="'+item.stateDescription+'">'+item.stateDescription+'</a>';
+            stateDescriptionHTML = '<a class="inline-block ellipsis" href="/add/'+item.id+'" alt="'+item.stateDescription+'" title="'+item.stateDescription+'">'+item.stateDescription+'</a>';
           } else {
-            stateDescriptionHTML = '<a class="btn btn-primary" href="/add/id='+item.id+'">添加描述</a>';
+            stateDescriptionHTML = '<a class="btn btn-primary" href="/add/'+item.id+'">添加描述</a>';
           }
           str += '<tr>'+
                      '<td>'+item.id+'</td>'+
