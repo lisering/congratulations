@@ -38,7 +38,7 @@
                     <img src="{{state.stateImg}}" class="stateimg img-responsive">
                     <div class="posa votepos">
                         <a href="javascript:;" class="btn btn-info btn-lg glyphicon glyphicon-share lp">拉票</a>&nbsp;&nbsp;
-                        <a href="javascript:;" rel="{{state.stateName}}" class="btn btn-success btn-lg glyphicon glyphicon-thumbs-up votebtn">投票</a>
+                        <button rel="{{state.stateName}}" class="btn btn-success btn-lg glyphicon glyphicon-thumbs-up votebtn">投票</button>
                     </div>
                 </div>
                 <!-- <p class="text-muted">{{state.stateDescription}}</p> -->
@@ -63,9 +63,13 @@
     var openId = getQueryString('openid');
     function vote(e) {
         e.preventDefault();
+        var $this = $(e.target);
+        var stateName = $this.attr('rel');
+        if ($this.attr('disabled')) {
+            return alert('您已经为“'+stateName+'”投过票了！');
+        }
+        $(e.target).attr('disbled', true);
         if (openId) {
-            var $this = $(e.target);
-            var stateName = $this.attr('rel');
             $.getJSON('/vote', {stateName: stateName, openId: openId}, function(data) {
                 if (data.message === 'success') {
                     voteDom = $this.closest('li').find('.vote'),
@@ -89,7 +93,7 @@
             if (!data.error) {
                 var str = '';
                 $.each(data.states, function(i, item) {
-                    str+='<li><div class="title clearfix"><div class="pull-left"><span>' + item.areaName + '</span><span>－</span><span>' + item.stateName + '</span></div><div class="pull-right">票数：<span class="vote">' + item.stateVotes + '</span></div></div><div class="posr"><img class="img-responsive" src="' + item.stateImg + '"><div class="posa votepos"><a href="javascript:;" class="btn btn-info btn-lg glyphicon glyphicon-share lp">拉票</a>&nbsp;&nbsp;<a class="btn btn-success btn-lg glyphicon glyphicon-thumbs-up votebtn" href="javascript:;" rel="'+item.stateName+'">投票</a></div></div><p class="text-muted">' + item.stateDescription + '</p></li>';
+                    str+='<li><div class="title clearfix"><div class="pull-left"><span>' + item.areaName + '</span><span>－</span><span>' + item.stateName + '</span></div><div class="pull-right">票数：<span class="vote">' + item.stateVotes + '</span></div></div><div class="posr"><img class="img-responsive" src="' + item.stateImg + '"><div class="posa votepos"><a href="javascript:;" class="btn btn-info btn-lg glyphicon glyphicon-share lp">拉票</a>&nbsp;&nbsp;<button class="btn btn-success btn-lg glyphicon glyphicon-thumbs-up votebtn" rel="'+item.stateName+'">投票</button></div></div><p class="text-muted">' + item.stateDescription + '</p></li>';
                 });
                 $('.votebtn').off('click', vote);
                 $('.lp').off('click', lp);
