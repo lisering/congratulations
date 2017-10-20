@@ -9,8 +9,14 @@ label.file {
   position: relative;
   width: 100%; }
 
-input[type="file"] {
-  visibility: hidden; }
+label.file {
+  position: relative; }
+  label.file input[type=file] {
+    position: absolute;
+    margin-top: 10px;
+    top: 10px;
+    left: 10px;
+    z-index: -1; }
 
 .filebtn {
   position: absolute;
