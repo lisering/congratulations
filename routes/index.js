@@ -64,12 +64,13 @@ router.get('/search', cache(10), (req, res, next) => {
 
 //投票
 router.get('/vote', (req, res, next) => {
-    let stateName = req.query.stateName;
-    let sql = `UPDATE state SET stateVotes=stateVotes+1 WHERE stateName='${stateName}'`;
+    let id = req.query.id;
+    let sql = `UPDATE state SET stateVotes=stateVotes+1 WHERE id='${id}'`;
     let iquery = db.query(sql, (err, result) => {
         if (err) {
             res.json({error: err});
         }
+        console.log(sql);
         res.json({message: 'success'});
     });
     // var openId = req.query.openId,
