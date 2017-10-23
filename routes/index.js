@@ -75,7 +75,7 @@ router.get('/vote', (req, res, next) => {
             }
             console.log(sql);
             console.log(result);
-            if (result.length === 0) {
+            if (!!result && result.length === 0) {
                 let isql = 'INSERT INTO vote SET ?';
                 let iquery = db.query(isql, {openid: openId, stateName: stateName}, (err, result) => {
                     if (err) {
