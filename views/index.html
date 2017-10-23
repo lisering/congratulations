@@ -60,30 +60,39 @@
         }
         return null;
     }
-    var openId = getQueryString('openid');
+    // var openId = getQueryString('openid');
     function vote(e) {
         e.preventDefault();
         var $this = $(e.target);
         var stateName = $this.attr('rel');
-        if ($this.attr('disabled')) {
+        if ($this.is(':disabled')) {
             return alert('您已经为“'+stateName+'”投过票了！');
         }
-        $(e.target).attr('disbled', true);
-        if (openId) {
-            $.getJSON('/vote', {stateName: stateName, openId: openId}, function(data) {
-                if (data.message === 'success') {
-                    voteDom = $this.closest('li').find('.vote'),
-                    vote = parseInt(voteDom.html(), 10) + 1;
-                    voteDom.html(vote);
-                    alert('您为“'+stateName+'”投票成功！');
-                }
-                if (data.message === 'failed'){
-                    return alert('您已经为“'+stateName+'”投过票了！');
-                }
-            });
-        } else {
-            alert('非法用户！');
-        }
+        $(e.target).attr('disabled', 'disabled');
+        $.getJSON('/vote', {stateName: stateName}, function(data) {
+            if (data.message === 'success') {
+                voteDom = $this.closest('li').find('.vote'),
+                vote = parseInt(voteDom.html(), 10) + 1;
+                voteDom.html(vote);
+                alert('您为“'+stateName+'”投票成功！');
+                $this.off('click', vote);
+            }
+        });
+        // if (openId) {
+        //     $.getJSON('/vote', {stateName: stateName, openId: openId}, function(data) {
+        //         if (data.message === 'success') {
+        //             voteDom = $this.closest('li').find('.vote'),
+        //             vote = parseInt(voteDom.html(), 10) + 1;
+        //             voteDom.html(vote);
+        //             alert('您为“'+stateName+'”投票成功！');
+        //         }
+        //         if (data.message === 'failed'){
+        //             return alert('您已经为“'+stateName+'”投过票了！');
+        //         }
+        //     });
+        // } else {
+        //     alert('非法用户！');
+        // }
     }
     $('.votebtn').on('click', vote);
 

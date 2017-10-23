@@ -64,40 +64,48 @@ router.get('/search', cache(10), (req, res, next) => {
 
 //投票
 router.get('/vote', (req, res, next) => {
-    var openId = req.query.openId,
-        stateName = req.query.stateName;
-    if (openId) {
-        let sql = `SELECT * FROM vote WHERE stateName='${stateName}' AND openid='${openId}'`;
-        console.log(sql);
-        let query = db.query(sql, (err, result) => {
-            if (err) {
-                res.json({error: err});
-            }
-            console.log(sql);
-            console.log(result);
-            if (!!result && result.length === 0) {
-                let isql = 'INSERT INTO vote SET ?';
-                let iquery = db.query(isql, {openid: openId, stateName: stateName}, (err, result) => {
-                    if (err) {
-                        res.json({error: err});
-                    }
-                    let usql = `UPDATE state SET stateVotes=stateVotes+1 WHERE stateName='${stateName}'`;
-                    let uquery = db.query(usql, (err, result) => {
-                        console.log(usql);
-                        if (err) {
-                            res.json({error: err});
-                        }
-                        console.log(result);
-                        res.json({message: 'success'});
-                    });
-                });
-            } else {
-                res.json({
-                    message: 'failed'
-                });
-            }
-        });
-    }
+    let stateName = req.query.stateName;
+    let sql = `UPDATE state SET stateVotes=stateVotes+1 WHERE stateName='${stateName}'`;
+    let iquery = db.query(sql, (err, result) => {
+        if (err) {
+            res.json({error: err});
+        }
+        res.json({message: 'success'});
+    });
+    // var openId = req.query.openId,
+    //     stateName = req.query.stateName;
+    // if (openId) {
+    //     let sql = `SELECT * FROM vote WHERE stateName='${stateName}' AND openid='${openId}'`;
+    //     console.log(sql);
+    //     let query = db.query(sql, (err, result) => {
+    //         if (err) {
+    //             res.json({error: err});
+    //         }
+    //         console.log(sql);
+    //         console.log(result);
+    //         if (!!result && result.length === 0) {
+    //             let isql = 'INSERT INTO vote SET ?';
+    //             let iquery = db.query(isql, {openid: openId, stateName: stateName}, (err, result) => {
+    //                 if (err) {
+    //                     res.json({error: err});
+    //                 }
+    //                 let usql = `UPDATE state SET stateVotes=stateVotes+1 WHERE stateName='${stateName}'`;
+    //                 let uquery = db.query(usql, (err, result) => {
+    //                     console.log(usql);
+    //                     if (err) {
+    //                         res.json({error: err});
+    //                     }
+    //                     console.log(result);
+    //                     res.json({message: 'success'});
+    //                 });
+    //             });
+    //         } else {
+    //             res.json({
+    //                 message: 'failed'
+    //             });
+    //         }
+    //     });
+    // }
 });
 
 //修改站点信息
