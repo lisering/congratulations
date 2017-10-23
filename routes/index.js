@@ -27,39 +27,58 @@ router.get('/', cache(10), (req, res, next) => {
             result.forEach((i, v) => {
                 area.add(i.areaName);
             });
+            // let province = new Set();
+            // result.forEach((i, v) => {
+            //     province.add(i.province);
+            // });
+            // let city = new Set();
+            // result.forEach((i, v) => {
+            //     city.add(i.city);
+            // });
+            // let country = new Set();
+            // result.forEach((i, v) => {
+            //     country.add(i.area);
+            // });
+            // res.render('index', {states: result, areas: [...area], provinces: [...province], cities: [...city], countries: [...country]});
             res.render('index', {states: result, areas: [...area]});
         });
     }, 500);
 });
 
 //搜索
-router.get('/search', cache(10), (req, res, next) => {
-    setTimeout(() => {
-        var sql = '',
-            areaName = req.query.area,
-            stateName = req.query.state;
-        if (areaName === '所有大区' && stateName === '') {
-            sql = 'SELECT * FROM state ORDER BY recordTime DESC';
-        }
-        if (areaName === '所有大区' && stateName !== '') {
-            sql = 'SELECT * FROM state WHERE stateName LIKE "%' + stateName + '%" ORDER BY recordTime DESC';
-        }
-        if (areaName !== '所有大区' && stateName === '') {
-            sql = 'SELECT * FROM state WHERE areaName="' + areaName + '" ORDER BY recordTime DESC';
-        }
-        if (areaName !== '所有大区' && stateName !== '') {
-            sql = 'SELECT * FROM state WHERE areaName="' + areaName + '" AND stateName LIKE "%' + stateName + '%" ORDER BY recordTime DESC';
-        }
-        if (sql) {
-            console.log(sql);
-            db.query(sql, (err, result) => {
-                if (err) {
-                    res.json({error: err});
-                }
-                res.json({states: result});
+router.get('/search', (req, res, next) => {
+    var
+        areaName = req.query.area,
+        province = req.query.province,
+        city = req.query.city,
+        country = req.query.country,
+        stateName = req.query.state,
+        stype = req.query.stype;
+
+    var areaStr = areaName ? ' AND areaName="' + areaName + '"' : '';
+    var provinceStr = province ? ' AND province="' + province + '"' : '';
+    var cityStr = city ? ' AND city="' + city + '"' : '';
+    var countryStr = country ? ' AND country="' + country + '"' : '';
+    var stateNameStr = stateName ? ' AND stateName="' + stateName + '"' : '';
+    
+    var sql = 'SELECT * FROM state WHERE 1=1' + areaStr + provinceStr + cityStr + countryStr + stateNameStr;
+
+    if (sql) {
+        console.log(sql);
+        db.query(sql, (err, result) => {
+            if (err) {
+                res.json({error: err});
+            }
+            let tempSet = new Set();
+            result.forEach((i, v) => {
+                tempSet.add(i[stype]);
             });
-        }
-    }, 500);
+            var jsonData = {};
+            jsonData.states = result;
+            jsonData[stype] = [...tempSet];
+            res.json(jsonData);
+        });
+    }
 });
 
 //投票

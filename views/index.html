@@ -1,29 +1,64 @@
-{% extends "layout.html" %}
-{% block title %}
-阳光15周年庆
-{% endblock %}
-{% block content %}
+{% extends "layout.html" %} {% block title %} 阳光15周年庆 {% endblock %} {% block content %}
+
 <body class="body">
-<div class="modals text-center hide" id="modal1">
-    <img src="../images/share.png" class="img-responsive">
-</div>
-<img src="../images/cb.jpg" class="img-responsive">
-<div class="container gradient">
-    <form id="search">
-        <div class="form-group">
-            <select name="area" id="area" class="form-control">
-                <option value="所有大区">所有大区</option>
-                {% for area in areas %}
-                <option value="{{area}}">{{area}}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="form-group">
-            <input type="text" class="form-control" name="state" id="state" placeholder="站点名称">
-        </div>
-    </form>
-    <ul class="list-unstyled statelist" id="statelist">
-        {% for state in states %}
+    <div class="modals text-center hide" id="modal1">
+        <img src="../images/share.png" class="img-responsive">
+    </div>
+    <img src="../images/cb.jpg" class="img-responsive">
+    <div class="container gradient">
+        <form id="search" class="form-inline">
+            <div class="row">
+                <div class="col-xs-4" style="padding-right:0;">
+                    <div class="form-group">
+                        <select name="area" id="area" class="form-control">
+                            <option value="">所有大区</option>
+                            {% for area in areas %}
+                            <option value="{{area}}">{{area}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4" style="padding-right:0;">
+                    <div class="form-group">
+                        <select name="province" id="province" class="form-control">
+                            <option value="">所属省份</option>
+                            {% for province in provinces %}
+                            <option value="{{province}}">{{province}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-4">
+                    <div class="form-group">
+                        <select name="city" id="city" class="form-control">
+                            <option value="">城市</option>
+                            {% for city in cities %}
+                            <option value="{{city}}">{{city}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-4" style="padding-right:0;">
+                    <div class="form-group">
+                        <select name="country" id="country" class="form-control">
+                            <option value="">县区</option>
+                            {% for country in countries %}
+                            <option value="{{country}}">{{country}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="col-xs-8">
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="state" id="state" placeholder="输入网点">
+                    </div>
+                </div>
+            </div>
+        </form>
+        <ul class="list-unstyled statelist" id="statelist">
+            {% for state in states %}
             <li>
                 <div class="title clearfix">
                     <div class="pull-left">
@@ -43,103 +78,150 @@
                 </div>
                 <!-- <p class="text-muted">{{state.stateDescription}}</p> -->
             </li>
-        {% endfor %}
-    </ul>
-</div>
-<img src="../images/bt.jpg" class="img-responsive">
-<script>
-    function getQueryString(query) {
-        var strObj = {};
-        var strArr = location.search.slice(1).split('&');
-        $.each(strArr, function(i, v) {
-            arr = v.split('=');
-            strObj[arr[0]] = arr[1];
-        });
-        if (strObj[query]) {
-            return strObj[query];
-        }
-        return null;
-    }
-    // var openId = getQueryString('openid');
-    function vote(e) {
-        e.preventDefault();
-        var $this = $(e.target);
-        var rel = $this.attr('rel').split('|||');
-        var stateName = rel[0];
-        var id = rel[1];
-        if ($this.is(':disabled')) {
-            return alert('您已经为“'+stateName+'”投过票了！');
-        }
-        $(e.target).attr('disabled', 'disabled');
-        $.getJSON('/vote', {id: id}, function(data) {
-            if (data.message === 'success') {
-                voteDom = $this.closest('li').find('.vote'),
-                vote = parseInt(voteDom.html(), 10) + 1;
-                voteDom.html(vote);
-                alert('您为“'+stateName+'”投票成功！');
-                $this.off('click', vote);
+            {% endfor %}
+        </ul>
+    </div>
+    <img src="../images/bt.jpg" class="img-responsive">
+    <script>
+        function getQueryString(query) {
+            var strObj = {};
+            var strArr = location.search.slice(1).split('&');
+            $.each(strArr, function (i, v) {
+                arr = v.split('=');
+                strObj[arr[0]] = arr[1];
+            });
+            if (strObj[query]) {
+                return strObj[query];
             }
-        });
-        // if (openId) {
-        //     $.getJSON('/vote', {stateName: stateName, openId: openId}, function(data) {
-        //         if (data.message === 'success') {
-        //             voteDom = $this.closest('li').find('.vote'),
-        //             vote = parseInt(voteDom.html(), 10) + 1;
-        //             voteDom.html(vote);
-        //             alert('您为“'+stateName+'”投票成功！');
-        //         }
-        //         if (data.message === 'failed'){
-        //             return alert('您已经为“'+stateName+'”投过票了！');
-        //         }
-        //     });
-        // } else {
-        //     alert('非法用户！');
-        // }
-    }
-    $('.votebtn').on('click', vote);
+            return null;
+        }
+        // var openId = getQueryString('openid');
+        function vote(e) {
+            e.preventDefault();
+            var $this = $(e.target);
+            var rel = $this.attr('rel').split('|||');
+            var stateName = rel[0];
+            var id = rel[1];
+            if ($this.is(':disabled')) {
+                return alert('您已经为“' + stateName + '”投过票了！');
+            }
+            $(e.target).attr('disabled', 'disabled');
+            $.getJSON('/vote', {
+                id: id
+            }, function (data) {
+                if (data.message === 'success') {
+                    voteDom = $this.closest('li').find('.vote'),
+                        vote = parseInt(voteDom.html(), 10) + 1;
+                    voteDom.html(vote);
+                    alert('您为“' + stateName + '”投票成功！');
+                    $this.off('click', vote);
+                }
+            });
+            // if (openId) {
+            //     $.getJSON('/vote', {stateName: stateName, openId: openId}, function(data) {
+            //         if (data.message === 'success') {
+            //             voteDom = $this.closest('li').find('.vote'),
+            //             vote = parseInt(voteDom.html(), 10) + 1;
+            //             voteDom.html(vote);
+            //             alert('您为“'+stateName+'”投票成功！');
+            //         }
+            //         if (data.message === 'failed'){
+            //             return alert('您已经为“'+stateName+'”投过票了！');
+            //         }
+            //     });
+            // } else {
+            //     alert('非法用户！');
+            // }
+        }
+        $('.votebtn').on('click', vote);
 
-    //搜索
-    function search(areaName, stateName) {
-        $.getJSON('/search', {area: areaName, state: stateName} ,function(data) {
-            if (!data.error) {
-                var str = '';
-                $.each(data.states, function(i, item) {
-                    str+='<li><div class="title clearfix"><div class="pull-left"><span>' + item.areaName +
-                         '</span><span>－</span><span>' + item.stateName +
-                         '</span></div><div class="pull-right">票数：<span class="vote">' + item.stateVotes +
-                         '</span></div></div><div class="posr"><img class="img-responsive" src="' + item.stateImg +
-                         '"><div class="posa votepos"><a href="javascript:;" class="btn btn-info btn-lg glyphicon glyphicon-share lp">' +
-                            '拉票</a>&nbsp;&nbsp;<button class="btn btn-success btn-lg glyphicon glyphicon-thumbs-up votebtn" rel="' + item.stateName + '|||' + item.id +
-                            '">投票</button></div></div></li>';
+        //搜索
+        function appendOption(targetEle, data, pele, dstr) {
+            var optionStr = dstr;
+
+            if (pele.val() === '' && pele.attr('id') === 'area') {
+                $('#province').html('<option value="">所属省份</option>');
+                $('#city').html('<option value="">城市</option>');
+                $('#country').html('<option value="">县区</option>');
+                return;
+            }
+            if (pele.val() === '' && pele.attr('id') === 'province') {
+                $('#city').html('<option value="">城市</option>');
+                $('#country').html('<option value="">县区</option>');
+                return;
+            }
+            if (pele.val() === '' && pele.attr('id') === 'city') {
+                $('#country').html('<option value="">县区</option>');
+                return;
+            }
+            $.each(data, function (i, v) {
+                optionStr += '<option value="' + v + '">' + v + '</option>';
+            });
+            targetEle.html(optionStr);
+        }
+
+        function search(stype, pele, dstr) {
+            $.ajax({
+                type: 'get',
+                url: '/search',
+                data: $('#search').serialize() + '&stype=' + stype,
+                success: function (data) {
+                    if (!data.error) {
+                        appendOption($('#' + stype), data[stype], pele, dstr);
+                        var str = '';
+                        $.each(data.states, function (i, item) {
+                            str += '<li><div class="title clearfix"><div class="pull-left"><span>' +
+                                item.areaName +
+                                '</span><span>－</span><span>' + item.stateName +
+                                '</span></div><div class="pull-right">票数：<span class="vote">' +
+                                item.stateVotes +
+                                '</span></div></div><div class="posr"><img class="img-responsive" src="' +
+                                item.stateImg +
+                                '"><div class="posa votepos"><a href="javascript:;" class="btn btn-info btn-lg glyphicon glyphicon-share lp">' +
+                                '拉票</a>&nbsp;&nbsp;<button class="btn btn-success btn-lg glyphicon glyphicon-thumbs-up votebtn" rel="' +
+                                item.stateName + '|||' + item.id +
+                                '">投票</button></div></div></li>';
                             // '">投票</button></div></div><p class="text-muted">' + item.stateDescription + '</p></li>';
-                });
-                $('.votebtn').off('click', vote);
-                $('.lp').off('click', lp);
-                $('#statelist').html(str);
-                $('.votebtn').on('click', vote);
-                $('.lp').on('click', lp);
-            }
+                        });
+                        $('.votebtn').off('click', vote);
+                        $('.lp').off('click', lp);
+                        $('#statelist').html(str);
+                        $('.votebtn').on('click', vote);
+                        $('.lp').on('click', lp);
+                    }
+                }
+            });
+        }
+        //搜索大区
+        $('#area').on('change', function (e) {
+            var dstr = '<option value="">所属省份</option>';
+            $('#province').html(dstr);
+            $('#city').html('<option value="">城市</option>');
+            $('#country').html('<option value="">县区</option>');
+            search('province', $(this), dstr);
         });
-    }
-    //搜索大区
-    $('#area').on('change', function (e) {
-        $('#state').val('');
-        search($(this).val(), $('#state').val());
-    });
-    //在大区下搜索站点
-    $('#state').on('input', function (e) {
-        search($('#area').val(), $(this).val());
-    });
+        //搜索省份
+        $('#province').on('change', function (e) {
+            var dstr = '<option value="">城市</option>';
+            $('#city').html(dstr);
+            $('#country').html('<option value="">县区</option>');
+            search('city', $(this), dstr);
+        });
+        //在大区下搜索站点
+        $('#state').on('input', function (e) {
+            search();
+        });
 
-    //拉票
-    $('.lp').on('click', lp);
-    function lp(e) {
-        e.preventDefault();
-        $('#modal1').removeClass('hide');
-    }
-    $('#modal1').on('click', function(e) {
-        $(this).addClass('hide');
-    });
-</script>
-{% endblock %}
+        //拉票
+        $('.lp').on('click', lp);
+
+        function lp(e) {
+            e.preventDefault();
+            $('#modal1').removeClass('hide');
+        }
+        $('#modal1').on('click', function (e) {
+            $(this).addClass('hide');
+        });
+    </script>
+    {% endblock %}
 </body>
