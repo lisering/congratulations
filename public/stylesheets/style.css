@@ -120,11 +120,7 @@ th .order:active {
   text-decoration: none; }
 
 .stateimg {
-  border-radius: 7px;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 8px white;
-  -moz-box-shadow: 0 0 8px white;
-  -webkit-box-shadow: 0 0 8px white; }
+  border-radius: 5px; }
 
 .modals {
   position: fixed;

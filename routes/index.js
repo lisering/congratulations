@@ -18,7 +18,7 @@ var upload = multer({ storage: storage }).single('stateimg');
 /* GET stateList page. */
 router.get('/', cache(10), (req, res, next) => {
     setTimeout(() => {
-        let sql = 'SELECT * FROM state ORDER BY recordTime';
+        let sql = 'SELECT * FROM state WHERE stateImg IS NOT NULL ORDER BY recordTime';
         let query = db.query(sql, (err, result) => {
             if (err) {
                 throw err;
