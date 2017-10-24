@@ -2,6 +2,11 @@
   background-color: #f12733;
   color: #fff; }
 
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0; }
+
 textarea {
   resize: none; }
 
@@ -26,12 +31,25 @@ label.file {
   color: #aaa; }
 
 .title {
-  margin: 5px 0;
-  font-weight: 500;
+  padding: 10px 0 0 0;
+  font-size: 16px;
+  color: #9fa0a0;
+  text-align: center; }
+
+.votes {
+  padding: 0 10px 10px 10px; }
+
+.votequality {
+  color: #ed0e2f;
   font-size: 16px; }
 
-.vote {
-  color: #fff; }
+.heart {
+  width: 30px;
+  height: auto; }
+
+.btnicon {
+  width: 20px;
+  height: auto; }
 
 .votebtn {
   color: white; }
@@ -65,10 +83,13 @@ label.file {
 .statelist {
   margin-top: 30px; }
 
-.statelist li {
-  margin: 10px 0; }
+.li {
+  margin: 10px 0;
+  border-radius: 5px;
+  background: #fff;
+  color: #000; }
 
-.statelist li p {
+.li p {
   margin-top: 10px; }
 
 .black {
@@ -119,6 +140,9 @@ th .order:active {
   color: #000;
   text-decoration: none; }
 
+.img {
+  padding: 10px; }
+
 .stateimg {
   border-radius: 5px; }
 
@@ -130,6 +154,9 @@ th .order:active {
   width: 100%;
   height: 100%;
   z-index: 99; }
+
+#imgmodal {
+  margin: 15px; }
 
 .gradient {
   background: -webkit-linear-gradient(#f12733, #fc713e);
