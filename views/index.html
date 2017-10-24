@@ -147,10 +147,11 @@
         }
 
         function search(stype, pele, dstr) {
+            var stypeStr = stype ? '&stype=' + stype : '';
             $.ajax({
                 type: 'get',
                 url: '/search',
-                data: $('#search').serialize() + '&stype=' + stype,
+                data: $('#search').serialize() + stypeStr,
                 success: function (data) {
                     if (!data.error) {
                         if (stype !== 'state' || stype !== null) {

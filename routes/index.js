@@ -69,13 +69,15 @@ router.get('/search', (req, res, next) => {
             if (err) {
                 res.json({error: err});
             }
-            let tempSet = new Set();
-            result.forEach((i, v) => {
-                tempSet.add(i[stype]);
-            });
             var jsonData = {};
+            if (stype !== undefined || stype !== '') {
+                let tempSet = new Set();
+                result.forEach((i, v) => {
+                    tempSet.add(i[stype]);
+                });
+                jsonData[stype] = [...tempSet];
+            }
             jsonData.states = result;
-            jsonData[stype] = [...tempSet];
             res.json(jsonData);
         });
     }
