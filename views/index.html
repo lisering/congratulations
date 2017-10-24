@@ -6,7 +6,7 @@
     </div>
     <img src="../images/cb.jpg" class="img-responsive">
     <div class="container gradient">
-        <form id="search" class="form-inline">
+        <form id="search">
             <div class="row">
                 <div class="col-xs-4" style="padding-right:0;">
                     <div class="form-group">
@@ -137,27 +137,10 @@
 
         //搜索
         function appendOption(targetEle, data, pele, dstr) {
-            var optionStr = dstr;
-
-            if (pele.val() === '' && pele.attr('id') === 'area') {
-                $('#province').html('<option value="">所属省份</option>');
-                $('#city').html('<option value="">城市</option>');
-                $('#country').html('<option value="">县区</option>');
-                return;
-            }
-            if (pele.val() === '' && pele.attr('id') === 'province') {
-                $('#city').html('<option value="">城市</option>');
-                $('#country').html('<option value="">县区</option>');
-                return;
-            }
-            if (pele.val() === '' && pele.attr('id') === 'city') {
-                $('#country').html('<option value="">县区</option>');
-                return;
-            }
             $.each(data, function (i, v) {
-                optionStr += '<option value="' + v + '">' + v + '</option>';
+                dstr += '<option value="' + v + '">' + v + '</option>';
             });
-            targetEle.html(optionStr);
+            targetEle.html(dstr);
         }
 
         function search(stype, pele, dstr) {
@@ -167,7 +150,9 @@
                 data: $('#search').serialize() + '&stype=' + stype,
                 success: function (data) {
                     if (!data.error) {
-                        appendOption($('#' + stype), data[stype], pele, dstr);
+                        if (stype !== 'state' || stype !== null) {
+                            appendOption($('#' + stype), data[stype], pele, dstr);
+                        }
                         var str = '';
                         $.each(data.states, function (i, item) {
                             str += '<li><div class="title clearfix"><div class="pull-left"><span>' +
@@ -198,18 +183,31 @@
             $('#province').html(dstr);
             $('#city').html('<option value="">城市</option>');
             $('#country').html('<option value="">县区</option>');
-            search('province', $(this), dstr);
+            var stype = $(this).val() ? 'province' : null;
+            search(stype, $(this), dstr);
         });
         //搜索省份
         $('#province').on('change', function (e) {
             var dstr = '<option value="">城市</option>';
             $('#city').html(dstr);
             $('#country').html('<option value="">县区</option>');
-            search('city', $(this), dstr);
+            var stype = $(this).val() ? 'city' : null;
+            search(stype, $(this), dstr);
+        });
+        //搜索城市
+        $('#city').on('change', function (e) {
+            var dstr = '<option value="">县区</option>';
+            $('#country').html(dstr);
+            var stype = $(this).val() ? 'country' : null;
+            search(stype, $(this), dstr);
+        });
+        //搜索县区
+        $('#country').on('change', function (e) {
+            search('state', $(this), '');
         });
         //在大区下搜索站点
         $('#state').on('input', function (e) {
-            search();
+            search('state');
         });
 
         //拉票

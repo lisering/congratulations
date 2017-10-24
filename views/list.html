@@ -7,17 +7,55 @@
 <div class="container">
     <h3 class="text-center">联想阳光15周年庆—站点投票</h3>
     <form id="search">
-      <div class="form-group">
-          <select name="area" id="area" class="form-control">
-              <option value="所有大区">所有大区</option>
-              {% for area in areas %}
-              <option value="{{area}}">{{area}}</option>
-              {% endfor %}
-          </select>
-      </div>
-      <div class="form-group">
-          <input type="text" class="form-control" name="state" id="state" placeholder="站点名称">
-      </div>
+        <div class="row">
+            <div class="col-xs-4" style="padding-right:0;">
+                <div class="form-group">
+                    <select name="area" id="area" class="form-control">
+                        <option value="">所有大区</option>
+                        {% for area in areas %}
+                        <option value="{{area}}">{{area}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-4" style="padding-right:0;">
+                <div class="form-group">
+                    <select name="province" id="province" class="form-control">
+                        <option value="">所属省份</option>
+                        {% for province in provinces %}
+                        <option value="{{province}}">{{province}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="form-group">
+                    <select name="city" id="city" class="form-control">
+                        <option value="">城市</option>
+                        {% for city in cities %}
+                        <option value="{{city}}">{{city}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-4" style="padding-right:0;">
+                <div class="form-group">
+                    <select name="country" id="country" class="form-control">
+                        <option value="">县区</option>
+                        {% for country in countries %}
+                        <option value="{{country}}">{{country}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="col-xs-8">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="state" id="state" placeholder="输入网点">
+                </div>
+            </div>
+        </div>
     </form>
     <table class="table table-striped">
         <thead>
@@ -54,17 +92,14 @@
 </div>
 <script>
     $('.order').on('click', order);
-
     function order(e) {
       e.preventDefault();
-      var area = $('#area').val();
-      var state = $('#state').val();
-      if (state.length !== 0) {
+      if ($('#state').val().length !== 0) {
         return;
       }
       var $this = $(e.target);
       var href = $this.attr('href');
-      $.getJSON(href, {areaname: area}, function(data) {
+      $.getJSON(href, $('#search').serialize(), function(data) {
         var str = '';
         $.each(data, function(i, item) {
           var stateImgHTML = '',
@@ -97,9 +132,22 @@
       });
     }
     //搜索
-    function search(areaName, stateName) {
-        $.getJSON('/search', {area: areaName, state: stateName} ,function(data) {
+    function appendOption(targetEle, data, pele, dstr) {
+        $.each(data, function (i, v) {
+            dstr += '<option value="' + v + '">' + v + '</option>';
+        });
+        targetEle.html(dstr);
+    }
+    function search(stype, pele, dstr) {
+        $.ajax({
+          type: 'get',
+          url: '/search',
+          data: $('#search').serialize() + '&stype=' + stype,
+          success: function(data) {
             if (!data.error) {
+              if (stype !== 'state' || stype !== null) {
+                  appendOption($('#' + stype), data[stype], pele, dstr);
+              }
               var str = '';
               $.each(data.states, function(i, item) {
                 var stateImgHTML = '',
@@ -123,20 +171,42 @@
                           '<td class="text-center">'+ stateImgHTML +
                           '</td></tr>';
               });
-              $('.order').off('click', order);
               $('#tbody').html(str);
-              $('.order').on('click', order);
             }
+          }
         });
     }
     //搜索大区
     $('#area').on('change', function (e) {
-      $('#state').val('');
-      search($(this).val(), $('#state').val());
+        var dstr = '<option value="">所属省份</option>';
+        $('#province').html(dstr);
+        $('#city').html('<option value="">城市</option>');
+        $('#country').html('<option value="">县区</option>');
+        var stype = $(this).val() ? 'province' : null;
+        search(stype, $(this), dstr);
+    });
+    //搜索省份
+    $('#province').on('change', function (e) {
+        var dstr = '<option value="">城市</option>';
+        $('#city').html(dstr);
+        $('#country').html('<option value="">县区</option>');
+        var stype = $(this).val() ? 'city' : null;
+        search(stype, $(this), dstr);
+    });
+    //搜索城市
+    $('#city').on('change', function (e) {
+        var dstr = '<option value="">县区</option>';
+        $('#country').html(dstr);
+        var stype = $(this).val() ? 'country' : null;
+        search(stype, $(this), dstr);
+    });
+    //搜索县区
+    $('#country').on('change', function (e) {
+        search('state', $(this), '');
     });
     //在大区下搜索站点
     $('#state').on('input', function (e) {
-        search($('#area').val(), $(this).val());
+        search('state');
     });
 </script>
 </body>

@@ -59,7 +59,7 @@ router.get('/search', (req, res, next) => {
     var provinceStr = province ? ' AND province="' + province + '"' : '';
     var cityStr = city ? ' AND city="' + city + '"' : '';
     var countryStr = country ? ' AND country="' + country + '"' : '';
-    var stateNameStr = stateName ? ' AND stateName="' + stateName + '"' : '';
+    var stateNameStr = stateName ? ' AND stateName LIKE "%' + stateName + '%"' : '';
     
     var sql = 'SELECT * FROM state WHERE 1=1' + areaStr + provinceStr + cityStr + countryStr + stateNameStr;
 
@@ -159,27 +159,28 @@ router.post('/poststate', (req, res, next) => {
 //排序
 router.get('/order/:orderby/:order', cache(10), (req, res, next) => {
     setTimeout(() => {
-        var areaName = req.query.areaname;
-        var sqlStr = ' ';
-        if (areaName !== '所有大区') {
-            sqlStr = ' WHERE areaName="' + areaName + '" ';
+        var
+        areaName = req.query.area,
+        province = req.query.province,
+        city = req.query.city,
+        country = req.query.country,
+        stateName = req.query.state,
+        stype = req.query.stype;
+
+    var areaStr = areaName ? ' AND areaName="' + areaName + '"' : '';
+    var provinceStr = province ? ' AND province="' + province + '"' : '';
+    var cityStr = city ? ' AND city="' + city + '"' : '';
+    var countryStr = country ? ' AND country="' + country + '"' : '';
+    var stateNameStr = stateName ? ' AND stateName LIKE "%' + stateName + '%"' : '';
+    var orderBy = req.params.orderby ? ' ORDER BY CONVERT('+req.params.orderby+' USING GBK) ': '';
+    var order = req.params.order ? ' ' + req.params.order : '';
+    var sql = 'SELECT * FROM state WHERE 1=1' + areaStr + provinceStr + cityStr + countryStr + stateNameStr + orderBy + order;
+
+    let query = db.query(sql, (err, result) => {
+        if (err) {
+            console.log(err);
         }
-        var orderBy = req.params.orderby;
-        var order = req.params.order;
-        var sql;
-        switch (orderBy) {
-            case 'id':
-            case 'stateImg':
-                sql = `SELECT * FROM state${sqlStr}ORDER BY ${orderBy} ${order}`;
-                break;
-            default:
-                sql = `SELECT * FROM state${sqlStr}ORDER BY CONVERT(${orderBy} USING GBK) ${order}`;
-        }
-        let query = db.query(sql, (err, result) => {
-            if (err) {
-                console.log(err);
-            }
-            console.log(sql);
+        console.log(sql);
             res.json(result);
         });
     }, 500);
