@@ -42,7 +42,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-xs-4" style="padding-right:0;">
+                <!-- <div class="col-xs-4" style="padding-right:0;">
                     <div class="form-group">
                         <select name="country" id="country" class="form-control">
                             <option value="">县区</option>
@@ -51,8 +51,8 @@
                             {% endfor %}
                         </select>
                     </div>
-                </div>
-                <div class="col-xs-8">
+                </div> -->
+                <div class="col-xs-12">
                     <div class="form-group">
                         <input type="text" class="form-control" name="state" id="state" placeholder="输入网点">
                     </div>
@@ -203,9 +203,9 @@
             search(stype, $(this), dstr);
         });
         //搜索县区
-        $('#country').on('change', function (e) {
-            search('state', $(this), '');
-        });
+        // $('#country').on('change', function (e) {
+        //     search('state', $(this), '');
+        // });
         //在大区下搜索站点
         $('#state').on('input', function (e) {
             search('state');
