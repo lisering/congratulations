@@ -19,7 +19,9 @@
     </script>
     <div class="modals text-center hide" id="modal1">
         <img src="../images/arrow.png" class="img-responsive">
-        <div id="imgmodal" class="li"></div>
+        <div class="li text-center tt">
+            <span id="imgmodal"></span>
+        </div>
         <img src="../images/stext.png" class="img-responsive">
     </div>
     <img src="../images/cb.jpg" class="img-responsive">
@@ -239,8 +241,8 @@
 
         function lp(e) {
             e.preventDefault();
-            var str = $(e.target).closest('li').html();
-            $('#imgmodal').html(str).find('.votes').hide();
+            var str = $(e.target).closest('li').find('.title').html();
+            $('#imgmodal').html(str);
             $('#modal1').removeClass('hide');
         }
         $('#modal1').on('click', function (e) {

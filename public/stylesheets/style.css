@@ -167,4 +167,11 @@ th .order:active {
 .text-center {
   text-align: center; }
 
+#imgmodal {
+  display: inline-block;
+  padding: 15px 0; }
+
+.tt {
+  margin: 0 15px; }
+
 /*# sourceMappingURL=style.css.map */
