@@ -164,4 +164,7 @@ th .order:active {
   background: -moz-linear-gradient(#f12733, #fc713e);
   background: linear-gradient(#f12733, #fc713e); }
 
+.text-center {
+  text-align: center; }
+
 /*# sourceMappingURL=style.css.map */
