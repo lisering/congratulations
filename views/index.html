@@ -1,4 +1,6 @@
-{% extends "layout.html" %} {% block title %} 阳光15周年庆 {% endblock %} {% block content %}
+{% extends "layout.html" %}
+{% block title %} 阳光15周年庆 {% endblock %}
+{% block content %}
 
 <body class="body">
     <div class="modals text-center hide" id="modal1">
@@ -23,7 +25,7 @@
                 <div class="col-xs-4" style="padding-right:0;">
                     <div class="form-group">
                         <select name="province" id="province" class="form-control">
-                            <option value="">所属省份</option>
+                            <option value="">所有省份</option>
                             {% for province in provinces %}
                             <option value="{{province}}">{{province}}</option>
                             {% endfor %}
@@ -33,7 +35,7 @@
                 <div class="col-xs-4">
                     <div class="form-group">
                         <select name="city" id="city" class="form-control">
-                            <option value="">城市</option>
+                            <option value="">所有城市</option>
                             {% for city in cities %}
                             <option value="{{city}}">{{city}}</option>
                             {% endfor %}
@@ -45,7 +47,7 @@
                 <!-- <div class="col-xs-4" style="padding-right:0;">
                     <div class="form-group">
                         <select name="country" id="country" class="form-control">
-                            <option value="">县区</option>
+                            <option value="">所有县区</option>
                             {% for country in countries %}
                             <option value="{{country}}">{{country}}</option>
                             {% endfor %}
@@ -156,18 +158,24 @@
                         }
                         var str = '';
                         $.each(data.states, function (i, item) {
-                            str += '<li><div class="title clearfix"><div class="pull-left"><span>' +
-                                item.areaName +
-                                '</span><span>－</span><span>' + item.stateName +
-                                '</span></div><div class="pull-right">票数：<span class="vote">' +
-                                item.stateVotes +
-                                '</span></div></div><div class="posr"><img class="img-responsive" src="' +
-                                item.stateImg +
-                                '"><div class="posa votepos"><a href="javascript:;" class="btn btn-info btn-lg glyphicon glyphicon-share lp">' +
-                                '拉票</a>&nbsp;&nbsp;<button class="btn btn-success btn-lg glyphicon glyphicon-thumbs-up votebtn" rel="' +
-                                item.stateName + '|||' + item.id +
-                                '">投票</button></div></div></li>';
-                            // '">投票</button></div></div><p class="text-muted">' + item.stateDescription + '</p></li>';
+                            str += '<li class="li">'+
+                                        '<div class="title text-center">'+
+                                            item.areaName + ' - ' + item.city + ' - ' + item.stateName +
+                                        '</div>'+
+                                        '<div class="img">'+
+                                            '<img src="' + item.stateImg + '" class="stateimg img-responsive">'+
+                                        '</div>'+
+                                        '<div class="votes clearfix">'+
+                                            '<div class="pull-left">'+
+                                                '<img class="heart" src="../images/heart.png">&nbsp;&nbsp;<span class="votequality"><span class="vote">' + item.stateVotes + '</span>&nbsp;票</span>'+
+                                            '</div>'+
+                                            '<div class="pull-right">'+
+                                                '<a href="javascript:;" class="btn btn-default lp"><img class="btnicon" src="../images/lp.png">&nbsp;拉票</a>&nbsp;&nbsp;'+
+                                                '<button rel="' + item.stateName + '|||' + item.id + '" class="btn btn-default votebtn"><img class="btnicon" src="../images/vote.png">&nbsp;投票</button>'+
+                                            '</div>'+
+                                        '</div>'+
+                                        '<!-- <p class="text-muted">' + item.stateDescription + '</p> -->'+
+                                    '</li>';
                         });
                         $('.votebtn').off('click', vote);
                         $('.lp').off('click', lp);
