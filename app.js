@@ -11,6 +11,7 @@ var compression = require('compression');
 var index = require('./routes/index');
 var list = require('./routes/list');
 var add = require('./routes/add');
+var wx = require('./routes/wx');
 var users = require('./routes/users');
 
 var app = express();
@@ -42,6 +43,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/list', list);
 app.use('/add', add);
+app.use('/wx', wx);
 // app.use('/users', users);
 
 // catch 404 and forward to error handler
