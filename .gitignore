@@ -5,4 +5,4 @@ node_modules
 *.psd
 *.csv
 *.xlsx
-data
+data/db.js
