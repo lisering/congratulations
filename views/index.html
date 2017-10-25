@@ -92,7 +92,7 @@
                     </div>
                     <div class="pull-right">
                         <a href="javascript:;" class="btn btn-default lp"><img class="btnicon" src="../images/lp.png" />&nbsp;拉票</a>&nbsp;&nbsp;
-                        <button rel="{{state.stateName}}|||{{state.id}}" class="btn btn-default votebtn"><img class="btnicon" src="../images/vote.png" />&nbsp;投票</button>
+                        <button id="{{state.id}}" rel="{{state.stateName}}|||{{state.id}}" class="btn btn-default votebtn"><img class="btnicon" src="../images/vote.png" />&nbsp;投票</button>
                     </div>
                 </div>
                 <!-- <p class="text-muted">{{state.stateDescription}}</p> -->
@@ -102,6 +102,14 @@
     </div>
     <img src="../images/bt.jpg" class="img-responsive">
     <script>
+        (function() {
+            for (id in localStorage) {
+                var $id = ($('#' + id));
+                if ($id.size() === 1) {
+                    $id.attr('disabled', 'disabled');
+                }
+            }
+        })();
         function getQueryString(query) {
             var strObj = {};
             var strArr = location.search.slice(1).split('&');
@@ -121,6 +129,9 @@
             var rel = $this.attr('rel').split('|||');
             var stateName = rel[0];
             var id = rel[1];
+            if (localStorage.getItem(id)) {
+                return alert('您已经为“' + stateName + '”投过票了！');
+            }
             if ($this.is(':disabled')) {
                 return alert('您已经为“' + stateName + '”投过票了！');
             }
@@ -131,9 +142,10 @@
                 if (data.message === 'success') {
                     voteDom = $this.closest('li').find('.vote'),
                         vote = parseInt(voteDom.html(), 10) + 1;
+                    $this.off('click', vote);
+                    localStorage.setItem(id, stateName);
                     voteDom.html(vote);
                     alert('您为“' + stateName + '”投票成功！');
-                    $this.off('click', vote);
                 }
             });
             // if (openId) {
