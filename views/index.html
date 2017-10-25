@@ -103,7 +103,7 @@
     <img src="../images/bt.jpg" class="img-responsive">
     <script>
         (function() {
-            for (id in localStorage) {
+            for (id in JSON.parse(localStorage.getItem('votes'))) {
                 var $id = ($('#' + id));
                 if ($id.size() === 1) {
                     $id.attr('disabled', 'disabled');
@@ -143,7 +143,9 @@
                     voteDom = $this.closest('li').find('.vote'),
                         vote = parseInt(voteDom.html(), 10) + 1;
                     $this.off('click', vote);
-                    localStorage.setItem(id, stateName);
+                    var oldHis = localStorage.getItem('votes') ? JSON.parse(localStorage.getItem('votes')) : {};
+                    oldHis[id] = stateName;
+                    localStorage.setItem('votes', JSON.stringify(oldHis));
                     voteDom.html(vote);
                     alert('您为“' + stateName + '”投票成功！');
                 }
