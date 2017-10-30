@@ -78,7 +78,7 @@ router.get('/search', (req, res, next) => {
                     jsonData[stype] = [...tempSet];
                 }
                 jsonData.states = states;
-                josnData.allStates = result;
+                jsonData.allStates = result;
                 res.json(jsonData);
             });
         });
