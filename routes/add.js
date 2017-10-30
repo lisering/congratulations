@@ -8,7 +8,7 @@ router.get('/:id', cache(10), function(req, res, next) {
   setTimeout(() => {
       db.getConnection((err, conn) => {
         let sql = `SELECT * FROM state WHERE id='${req.params.id}'`;
-        let query = conn.query(sql, (err, result) => {
+        conn.query(sql, (err, result) => {
             conn.release();
             console.log(sql);
             if (err) {

@@ -8,7 +8,7 @@ router.get('/', cache(10), function(req, res, next) {
   setTimeout(() => {
       let sql = 'SELECT * FROM state ORDER BY stateImg ASC';
       db.getConnection((err, conn) => {
-        let query = conn.query(sql, (err, result) => {
+        conn.query(sql, (err, result) => {
             conn.release();
             if (err) {
                 console.log(err);

@@ -20,7 +20,7 @@ router.get('/', cache(10), (req, res, next) => {
     db.getConnection((err, conn) => {
         setTimeout(() => {
             let sql = 'SELECT * FROM state ORDER BY recordTime';
-            let query = conn.query(sql, (err, result) => {
+            conn.query(sql, (err, result) => {
                 conn.release();
                 if (err) {
                     console.log(err);
@@ -56,7 +56,7 @@ router.get('/search', (req, res, next) => {
     if (sql) {
         db.getConnection((err, conn) => {
             console.log(sql);
-            let query = conn.query(sql, (err, result) => {
+            conn.query(sql, (err, result) => {
                 conn.release();
                 if (err) {
                     res.json({ error: err });
@@ -81,7 +81,7 @@ router.get('/vote', (req, res, next) => {
     let id = req.query.id;
     let sql = `UPDATE state SET stateVotes=stateVotes+1 WHERE id='${id}'`;
     db.getConnection((err, conn) => {
-        let iquery = conn.query(sql, (err, result) => {
+        conn.query(sql, (err, result) => {
             conn.release();
             if (err) {
                 res.json({ error: err });
@@ -110,7 +110,7 @@ router.post('/poststate', (req, res, next) => {
             };
             let sql = 'UPDATE state SET ? WHERE id="' + req.body.stateid + '"';
             db.getConnection((err, conn) => {
-                let query = conn.query(sql, stateData, (err, result) => {
+                conn.query(sql, stateData, (err, result) => {
                     console.log(sql);
                     conn.release();
                     if (err) {
@@ -144,7 +144,7 @@ router.get('/order/:orderby/:order', cache(10), (req, res, next) => {
         var sql = 'SELECT * FROM state WHERE 1=1' + areaStr + provinceStr + cityStr + countryStr + stateNameStr + orderBy + order;
 
         db.getConnection((err, conn) => {
-            let query = conn.query(sql, (err, result) => {
+            conn.query(sql, (err, result) => {
                 conn.release();
                 if (err) {
                     console.log(err);
