@@ -26,10 +26,14 @@ router.get('/', cache(10), (req, res, next) => {
                     console.log(err);
                 }
                 let area = new Set();
+                let states = [];
                 result.forEach((i, v) => {
                     area.add(i.areaName);
+                    if (i.stateImg) {
+                        states.push(i);
+                    }
                 });
-                res.render('index', { states: result, areas: [...area] });
+                res.render('index', { states: states, areas: [...area] });
             });
         }, 500);
     });
@@ -62,14 +66,19 @@ router.get('/search', (req, res, next) => {
                     res.json({ error: err });
                 }
                 var jsonData = {};
-                if (stype !== undefined || stype !== '') {
+                var states = [];
+                if (stype !== undefined  || stype !== 'null' || stype !== '') {
                     let tempSet = new Set();
                     result.forEach((i, v) => {
                         tempSet.add(i[stype]);
+                        if (i.stateImg) {
+                            states.push(i);
+                        }
                     });
                     jsonData[stype] = [...tempSet];
                 }
-                jsonData.states = result;
+                jsonData.states = states;
+                josnData.allStates = result;
                 res.json(jsonData);
             });
         });
