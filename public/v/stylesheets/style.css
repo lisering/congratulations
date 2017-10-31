@@ -174,4 +174,8 @@ th .order:active {
 .tt {
   margin: 0 15px; }
 
+.y {
+  position: absolute;
+  top: -9999px; }
+
 /*# sourceMappingURL=style.css.map */
