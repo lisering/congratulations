@@ -3,7 +3,7 @@
 {% block content %}
 
 <body class="body">
-    <!-- <script>
+    <script>
         function isWeiXin() {
             var ua = window.navigator.userAgent.toLowerCase();
             console.log(ua);//mozilla/5.0 (iphone; cpu iphone os 9_1 like mac os x) applewebkit/601.1.46 (khtml, like gecko)version/9.0 mobile/13b143 safari/601.1
@@ -14,9 +14,9 @@
             }
         }
         if (!isWeiXin()) {
-            location.href = '/wx';
+            location.href = '/v/wx';
         }
-    </script> -->
+    </script>
     <div class="modals text-center hide" id="modal1">
         <img src="../v/images/arrow.png" class="img-responsive">
         <div class="li text-center tt">
@@ -140,6 +140,9 @@
             $.getJSON('/v/vote', {
                 id: id
             }, function (data) {
+                if (data.passed) {
+                    return alert("抱歉，活动已经过期了！");
+                }
                 if (data.message === 'success') {
                     voteDom = $this.closest('li').find('.vote'),
                         vote = parseInt(voteDom.html(), 10) + 1;

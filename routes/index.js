@@ -88,7 +88,14 @@ router.get('/search', (req, res, next) => {
 //投票
 router.get('/vote', (req, res, next) => {
     let id = req.query.id;
+    var currentDate = Date.now();
+    var futureDate = (new Date("2017-11-08 00:00:00")).getTime(); //活动结束时间
     let sql = `UPDATE state SET stateVotes=stateVotes+1 WHERE id='${id}'`;
+    console.log("currentDate: "+currentDate);
+    console.log("futureDate: "+futureDate);
+    if (currentDate > futureDate) {
+        return res.json({passed: true});
+    }
     db.getConnection((err, conn) => {
         conn.query(sql, (err, result) => {
             conn.release();
