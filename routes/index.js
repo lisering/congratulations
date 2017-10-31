@@ -125,7 +125,7 @@ router.post('/poststate', (req, res, next) => {
                     if (err) {
                         console.log(err);
                     }
-                    res.redirect('/list');
+                    res.redirect('/v/list');
                 });
             });
         }

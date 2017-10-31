@@ -3,7 +3,7 @@
 {% block content %}
 
 <body class="body">
-    <!-- <script>
+    <script>
         function isWeiXin() {
             var ua = window.navigator.userAgent.toLowerCase();
             console.log(ua);//mozilla/5.0 (iphone; cpu iphone os 9_1 like mac os x) applewebkit/601.1.46 (khtml, like gecko)version/9.0 mobile/13b143 safari/601.1
@@ -16,7 +16,7 @@
         if (!isWeiXin()) {
             location.href = '/wx';
         }
-    </script> -->
+    </script>
     <div class="modals text-center hide" id="modal1">
         <img src="../v/images/arrow.png" class="img-responsive">
         <div class="li text-center tt">
@@ -91,8 +91,8 @@
                         <img class="heart" src="../v/images/heart.png">&nbsp;&nbsp;<span class="votequality"><span class="vote">{{state.stateVotes}}</span>&nbsp;票</span>
                     </div>
                     <div class="pull-right">
-                        <a href="javascript:;" class="btn btn-default lp"><img class="btnicon" src../v/images/lp.png" />&nbsp;拉票</a>&nbsp;&nbsp;
-                        <button id="{{state.id}}" rel="{{state.stateName}}|||{{state.id}}" class="btn btn-default votebtn"><img class="btnicon" src../v/images/vote.png" />&nbsp;投票</button>
+                        <a href="javascript:;" class="btn btn-default lp"><img class="btnicon" src="../v/images/lp.png" />&nbsp;拉票</a>&nbsp;&nbsp;
+                        <button id="{{state.id}}" rel="{{state.stateName}}|||{{state.id}}" class="btn btn-default votebtn"><img class="btnicon" src="../v/images/vote.png" />&nbsp;投票</button>
                     </div>
                 </div>
                 <!-- <p class="text-muted">{{state.stateDescription}}</p> -->
@@ -199,7 +199,7 @@
                                         '</div>'+
                                         '<div class="votes clearfix">'+
                                             '<div class="pull-left">'+
-                                                '<img class="heart" src../v/images/heart.png">&nbsp;&nbsp;<span class="votequality"><span class="vote">' + item.stateVotes + '</span>&nbsp;票</span>'+
+                                                '<img class="heart" src="../v/images/heart.png">&nbsp;&nbsp;<span class="votequality"><span class="vote">' + item.stateVotes + '</span>&nbsp;票</span>'+
                                             '</div>'+
                                             '<div class="pull-right">'+
                                                 '<a href="javascript:;" class="btn btn-default lp"><img class="btnicon" src="../v/images/lp.png">&nbsp;拉票</a>&nbsp;&nbsp;'+

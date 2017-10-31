@@ -75,15 +75,15 @@
                 <td>{{ state.areaName }}</td>
                 <td>{{ state.stateName }}</td>
                 {% if state.stateDescription %}
-                <td><a href="/add/{{state.id}}" class="inline-block ellipsis" alt="{{state.stateDescription}}" title="{{ state.stateDescription }}">{{ state.stateDescription }}</a></td>
+                <td><a href="/v/add/{{state.id}}" class="inline-block ellipsis" alt="{{state.stateDescription}}" title="{{ state.stateDescription }}">{{ state.stateDescription }}</a></td>
                 {% else %}
-                <td><a href="/add/{{state.id}}" class="btn btn-primary">添加描述</a></td>
+                <td><a href="/v/add/{{state.id}}" class="btn btn-primary">添加描述</a></td>
                 {% endif %}
                 <td>{{ state.stateVotes }}</td>
                 {% if state.stateImg %}
-                <td class="text-center"><a href="/add/{{state.id}}"><img src="{{state.stateImg}}" width=30 height=30></a></td>
+                <td class="text-center"><a href="/v/add/{{state.id}}"><img src="{{state.stateImg}}" width=30 height=30></a></td>
                 {% else %}
-                <td class="text-center"><a href="/add/{{state.id}}" class="btn btn-primary">添加图片</a></td>
+                <td class="text-center"><a href="/v/add/{{state.id}}" class="btn btn-primary">添加图片</a></td>
                 {% endif %}
             </tr>
             {% endfor %}
@@ -105,14 +105,14 @@
           var stateImgHTML = '',
           stateDescriptionHTML = '';
           if (item.stateImg) {
-            stateImgHTML = '<a href="/add/'+item.id+'"><img src="'+item.stateImg+'" width="30" height="30"></a>';
+            stateImgHTML = '<a href="/v/add/'+item.id+'"><img src="'+item.stateImg+'" width="30" height="30"></a>';
           } else {
-            stateImgHTML = '<a class="btn btn-primary" href="/add/'+item.id+'">增加图片</a>';
+            stateImgHTML = '<a class="btn btn-primary" href="/v/add/'+item.id+'">增加图片</a>';
           }
           if (item.stateDescription) {
-            stateDescriptionHTML = '<a class="inline-block ellipsis" href="/add/'+item.id+'" alt="'+item.stateDescription+'" title="'+item.stateDescription+'">'+item.stateDescription+'</a>';
+            stateDescriptionHTML = '<a class="inline-block ellipsis" href="/v/add/'+item.id+'" alt="'+item.stateDescription+'" title="'+item.stateDescription+'">'+item.stateDescription+'</a>';
           } else {
-            stateDescriptionHTML = '<a class="btn btn-primary" href="/add/'+item.id+'">添加描述</a>';
+            stateDescriptionHTML = '<a class="btn btn-primary" href="/v/add/'+item.id+'">添加描述</a>';
           }
           str += '<tr>'+
                      '<td>'+item.id+'</td>'+
@@ -153,14 +153,14 @@
                 var stateImgHTML = '',
                 stateDescriptionHTML = '';
                 if (item.stateImg) {
-                  stateImgHTML = '<a href="/add/'+item.id+'"><img src="'+item.stateImg+'" width="30" height="30"></a>';
+                  stateImgHTML = '<a href="/v/add/'+item.id+'"><img src="'+item.stateImg+'" width="30" height="30"></a>';
                 } else {
-                  stateImgHTML = '<a class="btn btn-primary" href="/add/'+item.id+'">增加图片</a>';
+                  stateImgHTML = '<a class="btn btn-primary" href="/v/add/'+item.id+'">增加图片</a>';
                 }
                 if (item.stateDescription) {
-                  stateDescriptionHTML = '<a class="inline-block ellipsis" href="/add/'+item.id+'" alt="'+item.stateDescription+'" title="'+item.stateDescription+'">'+item.stateDescription+'</a>';
+                  stateDescriptionHTML = '<a class="inline-block ellipsis" href="/v/add/'+item.id+'" alt="'+item.stateDescription+'" title="'+item.stateDescription+'">'+item.stateDescription+'</a>';
                 } else {
-                  stateDescriptionHTML = '<a class="btn btn-primary" href="/add/'+item.id+'">添加描述</a>';
+                  stateDescriptionHTML = '<a class="btn btn-primary" href="/v/add/'+item.id+'">添加描述</a>';
                 }
                 str += '<tr>'+
                           '<td>'+item.id+'</td>'+

@@ -41,9 +41,9 @@ app.use(sassMiddleware({
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/v/', index);
-app.use('/list', list);
-app.use('/add', add);
-app.use('/wx', wx);
+app.use('/v/list', list);
+app.use('/v/add', add);
+app.use('/v/wx', wx);
 // app.use('/users', users);
 
 // catch 404 and forward to error handler
