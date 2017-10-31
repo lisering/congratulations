@@ -137,7 +137,7 @@
                 return alert('您已经为“' + stateName + '”投过票了！');
             }
             $(e.target).attr('disabled', 'disabled');
-            $.getJSON('/vote', {
+            $.getJSON('/v/vote', {
                 id: id
             }, function (data) {
                 if (data.message === 'success') {
@@ -181,7 +181,7 @@
             var stypeStr = stype ? '&stype=' + stype : '';
             $.ajax({
                 type: 'get',
-                url: '/search',
+                url: '/v/search',
                 data: $('#search').serialize() + stypeStr,
                 success: function (data) {
                     if (!data.error) {

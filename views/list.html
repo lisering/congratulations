@@ -60,12 +60,12 @@
     <table class="table table-striped">
         <thead>
             <tr>
-                <th><a href="/order/id/desc" class="order">序号</a></th>
-                <th><a href="/order/areaName/desc" class="order">所属大区</a></th>
-                <th><a href="/order/stateName/desc" class="order">站点名称</a></th>
-                <th><a href="/order/stateDescription/desc" class="order">站点描述</a></th>
-                <th><a href="/order/stateVotes/desc" class="order">票数</a></th>
-                <th class="text-center"><a href="/order/stateImg/desc" class="order">站点图片</a></th>
+                <th><a href="/v/order/id/desc" class="order">序号</a></th>
+                <th><a href="/v/order/areaName/desc" class="order">所属大区</a></th>
+                <th><a href="/v/order/stateName/desc" class="order">站点名称</a></th>
+                <th><a href="/v/order/stateDescription/desc" class="order">站点描述</a></th>
+                <th><a href="/v/order/stateVotes/desc" class="order">票数</a></th>
+                <th class="text-center"><a href="/v/order/stateImg/desc" class="order">站点图片</a></th>
             </tr>
         </thead>
         <tbody id="tbody">
@@ -141,7 +141,7 @@
     function search(stype, pele, dstr) {
         $.ajax({
           type: 'get',
-          url: '/search',
+          url: '/v/search',
           data: $('#search').serialize() + '&stype=' + stype,
           success: function(data) {
             if (!data.error) {
