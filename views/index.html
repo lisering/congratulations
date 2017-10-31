@@ -18,13 +18,13 @@
         }
     </script> -->
     <div class="modals text-center hide" id="modal1">
-        <img src="../images/arrow.png" class="img-responsive">
+        <img src="../v/images/arrow.png" class="img-responsive">
         <div class="li text-center tt">
             <span id="imgmodal"></span>
         </div>
-        <img src="../images/stext.png" class="img-responsive">
+        <img src="../v/images/stext.png" class="img-responsive">
     </div>
-    <img src="../images/cb.jpg" class="img-responsive">
+    <img src="../v/images/cb.jpg" class="img-responsive">
     <div class="container gradient">
         <form id="search">
             <div class="row">
@@ -88,11 +88,11 @@
                 </div>
                 <div class="votes clearfix">
                     <div class="pull-left">
-                        <img class="heart" src="../images/heart.png">&nbsp;&nbsp;<span class="votequality"><span class="vote">{{state.stateVotes}}</span>&nbsp;票</span>
+                        <img class="heart" src="../v/images/heart.png">&nbsp;&nbsp;<span class="votequality"><span class="vote">{{state.stateVotes}}</span>&nbsp;票</span>
                     </div>
                     <div class="pull-right">
-                        <a href="javascript:;" class="btn btn-default lp"><img class="btnicon" src="../images/lp.png" />&nbsp;拉票</a>&nbsp;&nbsp;
-                        <button id="{{state.id}}" rel="{{state.stateName}}|||{{state.id}}" class="btn btn-default votebtn"><img class="btnicon" src="../images/vote.png" />&nbsp;投票</button>
+                        <a href="javascript:;" class="btn btn-default lp"><img class="btnicon" src../v/images/lp.png" />&nbsp;拉票</a>&nbsp;&nbsp;
+                        <button id="{{state.id}}" rel="{{state.stateName}}|||{{state.id}}" class="btn btn-default votebtn"><img class="btnicon" src../v/images/vote.png" />&nbsp;投票</button>
                     </div>
                 </div>
                 <!-- <p class="text-muted">{{state.stateDescription}}</p> -->
@@ -100,7 +100,7 @@
             {% endfor %}
         </ul>
     </div>
-    <img src="../images/bt.jpg" class="img-responsive">
+    <img src="../v/images/bt.jpg" class="img-responsive">
     <script>
         // localStorage.clear();
         // (function() {
@@ -199,11 +199,11 @@
                                         '</div>'+
                                         '<div class="votes clearfix">'+
                                             '<div class="pull-left">'+
-                                                '<img class="heart" src="../images/heart.png">&nbsp;&nbsp;<span class="votequality"><span class="vote">' + item.stateVotes + '</span>&nbsp;票</span>'+
+                                                '<img class="heart" src../v/images/heart.png">&nbsp;&nbsp;<span class="votequality"><span class="vote">' + item.stateVotes + '</span>&nbsp;票</span>'+
                                             '</div>'+
                                             '<div class="pull-right">'+
-                                                '<a href="javascript:;" class="btn btn-default lp"><img class="btnicon" src="../images/lp.png">&nbsp;拉票</a>&nbsp;&nbsp;'+
-                                                '<button rel="' + item.stateName + '|||' + item.id + '" class="btn btn-default votebtn"><img class="btnicon" src="../images/vote.png">&nbsp;投票</button>'+
+                                                '<a href="javascript:;" class="btn btn-default lp"><img class="btnicon" src="../v/images/lp.png">&nbsp;拉票</a>&nbsp;&nbsp;'+
+                                                '<button rel="' + item.stateName + '|||' + item.id + '" class="btn btn-default votebtn"><img class="btnicon" src="../v/images/vote.png">&nbsp;投票</button>'+
                                             '</div>'+
                                         '</div>'+
                                         '<!-- <p class="text-muted">' + item.stateDescription + '</p> -->'+
