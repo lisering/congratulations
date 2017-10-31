@@ -148,7 +148,7 @@ router.get('/order/:orderby/:order', cache(10), (req, res, next) => {
         var cityStr = city ? ' AND city="' + city + '"' : '';
         var countryStr = country ? ' AND country="' + country + '"' : '';
         var stateNameStr = stateName ? ' AND stateName LIKE "%' + stateName + '%"' : '';
-        var orderBy = req.params.orderby ? ' ORDER BY CONVERT(' + req.params.orderby + ' USING GBK) ' : '';
+        var orderBy = req.params.orderby ? (req.params.orderby === 'stateName' || req.params.orderby === 'areaName' || req.params.orderby === 'stateDescription' ? ' ORDER BY CONVERT(' + req.params.orderby + ' USING GBK)' : ' ORDER BY ' + req.params.orderby) : '';
         var order = req.params.order ? ' ' + req.params.order : '';
         var sql = 'SELECT * FROM state WHERE 1=1' + areaStr + provinceStr + cityStr + countryStr + stateNameStr + orderBy + order;
 
