@@ -17,6 +17,34 @@
             location.href = '/v/wx';
         }
     </script>
+    <script>
+        document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+            // 发送给好友
+            WeixinJSBridge.on('menu:share:appmessage', function (argv) {
+                WeixinJSBridge.invoke('sendAppMessage', {
+                    "appid": "wx0b7badf8e64823c0",
+                    "img_url": "http://weixin.00jianshen.com/wx/images/wx/15_title_year.jpg",
+                    "img_width": "120",
+                    "img_height": "100",
+                    "link": "http://weixin.00jianshen.com/v/",
+                    "desc": "阳光雨露15周年庆",
+                    "title": "阳光雨露15周年庆"
+                }, function (res) { });
+            });
+            // 分享到朋友圈
+            WeixinJSBridge.on('menu:share:timeline', function (argv) {
+                WeixinJSBridge.invoke('shareTimeline', {
+                    "appid": "wx0b7badf8e64823c0",
+                    "img_url": "http://weixin.00jianshen.com/wx/images/wx/15_title_year.jpg",
+                    "img_width": "120",
+                    "img_height": "100",
+                    "link": "http://weixin.00jianshen.com/v/",
+                    "desc": "阳光雨露15周年庆",
+                    "title": "阳光雨露15周年庆"
+                }, function (res) { });
+            });
+        }, false);
+    </script>
     <div class="modals text-center hide" id="modal1">
         <img src="../v/images/arrow.png" class="img-responsive">
         <div class="li text-center tt">
