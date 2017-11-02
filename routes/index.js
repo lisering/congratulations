@@ -58,11 +58,11 @@ router.get('/search', (req, res, next) => {
         stype = req.query.stype;
 
     db.getConnection((err, conn) => {
-        var areaStr = areaName ? ' AND areaName=' + conn.escape(areaName): '';
-        var provinceStr = province ? ' AND province=' + conn.escape(province): '';
-        var cityStr = city ? ' AND city=' + conn.escape(city): '';
-        var countryStr = country ? ' AND country=' + conn.escape(country): '';
-        var stateNameStr = stateName ? ' AND stateName LIKE ' + conn.escape('%'+stateName+'%'): '';
+        var areaStr = areaName ? ' AND areaName=' + db.escape(areaName): '';
+        var provinceStr = province ? ' AND province=' + db.escape(province): '';
+        var cityStr = city ? ' AND city=' + db.escape(city): '';
+        var countryStr = country ? ' AND country=' + db.escape(country): '';
+        var stateNameStr = stateName ? ' AND stateName LIKE ' + db.escape('%'+stateName+'%'): '';
 
         let sql = 'SELECT * FROM ?? WHERE 1=1' + areaStr + provinceStr + cityStr + countryStr + stateNameStr;
         sql = conn.format(sql, ['state']);
@@ -169,11 +169,11 @@ router.get('/order/:orderby/:order', cache(10), (req, res, next) => {
             stype = req.query.stype;
 
         db.getConnection((err, conn) => {
-            var areaStr = areaName ? ' AND areaName=' + conn.escape(areaName) : '';
-            var provinceStr = province ? ' AND province=' + conn.escape(province) : '';
-            var cityStr = city ? ' AND city=' + conn.escape(city) : '';
-            var countryStr = country ? ' AND country=' + conn.escape(country) : '';
-            var stateNameStr = stateName ? ' AND stateName LIKE ' + conn.escape('%' + stateName + '%') : '';
+            var areaStr = areaName ? ' AND areaName=' + db.escape(areaName) : '';
+            var provinceStr = province ? ' AND province=' + db.escape(province) : '';
+            var cityStr = city ? ' AND city=' + db.escape(city) : '';
+            var countryStr = country ? ' AND country=' + db.escape(country) : '';
+            var stateNameStr = stateName ? ' AND stateName LIKE ' + db.escape('%' + stateName + '%') : '';
             var orderBy = req.params.orderby ? (req.params.orderby === 'stateName' || req.params.orderby === 'areaName' || req.params.orderby === 'stateDescription' ? ' ORDER BY CONVERT(' + req.params.orderby + ' USING GBK)' : ' ORDER BY ' + req.params.orderby) : '';
             var order = req.params.order ? ' ' + req.params.order : '';
             var sql = 'SELECT * FROM ?? WHERE 1=1' + areaStr + provinceStr + cityStr + countryStr + stateNameStr + orderBy + order;
