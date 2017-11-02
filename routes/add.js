@@ -7,10 +7,11 @@ var cache = require('../cache/cache');
 router.get('/:id', cache(10), function(req, res, next) {
   setTimeout(() => {
       db.getConnection((err, conn) => {
-        let sql = `SELECT * FROM state WHERE id='${req.params.id}'`;
+        let sql = `SELECT * FROM ?? WHERE ??='${req.params.id}'`;
+        sql = conn.format(sql, ['state', 'id']);
+        console.log(sql);
         conn.query(sql, (err, result) => {
             conn.release();
-            console.log(sql);
             if (err) {
                 console.log(err);
             }
