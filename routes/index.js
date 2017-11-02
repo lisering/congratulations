@@ -46,7 +46,7 @@ router.get('/search', (req, res, next) => {
         province = req.query.province,
         city = req.query.city,
         country = req.query.country,
-        stateName = req.query.state,
+        stateName = (req.query.state).trim(),
         stype = req.query.stype;
 
     var areaStr = areaName ? ' AND areaName="' + areaName + '"' : '';
