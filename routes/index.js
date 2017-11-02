@@ -54,7 +54,7 @@ router.get('/search', (req, res, next) => {
         province = req.query.province,
         city = req.query.city,u
         country = req.query.country,
-        stateName = req.query.state,
+        stateName = (req.query.state).trim(),
         stype = req.query.stype;
 
     db.getConnection((err, conn) => {
