@@ -30,18 +30,20 @@ router.get('/', cache(10), (req, res, next) => {
                 if (err) {
                     console.log(err);
                 }
-                let area = new Set();
-                let states = [];
-                result.forEach((i, v) => {
-                    area.add(i.areaName);
-                    if (i.stateImg) {
-                        states.push(i);
-                    }
-                });
-                res.render('index', {
-                    states: states,
-                    areas: [...area]
-                });
+                if (result && 'forEach' in result) {
+                    let area = new Set();
+                    let states = [];
+                    result.forEach((i, v) => {
+                        area.add(i.areaName);
+                        if (i.stateImg) {
+                            states.push(i);
+                        }
+                    });
+                    res.render('index', {
+                        states: states,
+                        areas: [...area]
+                    });
+                }
             });
         }, 500);
     });
@@ -58,11 +60,11 @@ router.get('/search', (req, res, next) => {
         stype = req.query.stype;
 
     db.getConnection((err, conn) => {
-        var areaStr = areaName ? ' AND areaName=' + db.escape(areaName): '';
-        var provinceStr = province ? ' AND province=' + db.escape(province): '';
-        var cityStr = city ? ' AND city=' + db.escape(city): '';
-        var countryStr = country ? ' AND country=' + db.escape(country): '';
-        var stateNameStr = stateName ? ' AND stateName LIKE ' + db.escape('%'+stateName+'%'): '';
+        var areaStr = areaName ? ' AND areaName=' + conn.escape(areaName): '';
+        var provinceStr = province ? ' AND province=' + conn.escape(province): '';
+        var cityStr = city ? ' AND city=' + conn.escape(city): '';
+        var countryStr = country ? ' AND country=' + conn.escape(country): '';
+        var stateNameStr = stateName ? ' AND stateName LIKE ' + conn.escape('%'+stateName+'%'): '';
 
         let sql = 'SELECT * FROM ?? WHERE 1=1' + areaStr + provinceStr + cityStr + countryStr + stateNameStr;
         sql = conn.format(sql, ['state']);
@@ -78,14 +80,18 @@ router.get('/search', (req, res, next) => {
                 var jsonData = {};
                 var states = [];
                 if (stype !== undefined || stype !== 'null' || stype !== '') {
-                    let tempSet = new Set();
-                    result.forEach((i, v) => {
-                        tempSet.add(i[stype]);
-                        if (i.stateImg) {
-                            states.push(i);
-                        }
-                    });
-                    jsonData[stype] = [...tempSet];
+                    console.log('result has forEach method ');
+                    console.log('forEach' in result);
+                    if (result && 'forEach' in result) {
+                        let tempSet = new Set();
+                        result.forEach((i, v) => {
+                            tempSet.add(i[stype]);
+                            if (i.stateImg) {
+                                states.push(i);
+                            }
+                        });
+                        jsonData[stype] = [...tempSet];
+                    }
                 }
                 jsonData.states = states;
                 jsonData.allStates = result;
@@ -169,11 +175,11 @@ router.get('/order/:orderby/:order', cache(10), (req, res, next) => {
             stype = req.query.stype;
 
         db.getConnection((err, conn) => {
-            var areaStr = areaName ? ' AND areaName=' + db.escape(areaName) : '';
-            var provinceStr = province ? ' AND province=' + db.escape(province) : '';
-            var cityStr = city ? ' AND city=' + db.escape(city) : '';
-            var countryStr = country ? ' AND country=' + db.escape(country) : '';
-            var stateNameStr = stateName ? ' AND stateName LIKE ' + db.escape('%' + stateName + '%') : '';
+            var areaStr = areaName ? ' AND areaName=' + conn.escape(areaName) : '';
+            var provinceStr = province ? ' AND province=' + conn.escape(province) : '';
+            var cityStr = city ? ' AND city=' + conn.escape(city) : '';
+            var countryStr = country ? ' AND country=' + conn.escape(country) : '';
+            var stateNameStr = stateName ? ' AND stateName LIKE ' + conn.escape('%' + stateName + '%') : '';
             var orderBy = req.params.orderby ? (req.params.orderby === 'stateName' || req.params.orderby === 'areaName' || req.params.orderby === 'stateDescription' ? ' ORDER BY CONVERT(' + req.params.orderby + ' USING GBK)' : ' ORDER BY ' + req.params.orderby) : '';
             var order = req.params.order ? ' ' + req.params.order : '';
             var sql = 'SELECT * FROM ?? WHERE 1=1' + areaStr + provinceStr + cityStr + countryStr + stateNameStr + orderBy + order;
