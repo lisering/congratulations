@@ -160,7 +160,10 @@
                     // oldHis[id] = stateName;
                     // localStorage.setItem('votes', JSON.stringify(oldHis));
                     voteDom.html(vote);
-                    alert('您为“' + stateName + '”投票成功！');
+                    return alert('您为“' + stateName + '”投票成功！');
+                }
+                if (data.message === 'failed') {
+                    return alert('投票失败！');
                 }
             });
             // if (openId) {

@@ -114,20 +114,27 @@ router.get('/vote', (req, res, next) => {
         });
     }
     db.getConnection((err, conn) => {
-        let sql = 'UPDATE ?? SET stateVotes=stateVotes+1 WHERE ??=' + id;
+        let sql = 'UPDATE ?? SET stateVotes=stateVotes+1 WHERE ??=' + id + ' AND stateImg IS NOT NULL';
         let inserts = ['state', 'id'];
         sql = conn.format(sql, inserts);
         console.log(sql);
         conn.query(sql, (err, result) => {
             conn.release();
+            console.log(result.affectedRows);
             if (err) {
                 res.json({
                     error: err
                 });
             }
-            res.json({
-                message: 'success'
-            });
+            if (result.affectedRows !== 0) {
+                res.json({
+                    message: 'success'
+                });
+            } else {
+                res.json({
+                    message: 'failed'
+                });
+            }
         });
     });
 });
