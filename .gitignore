@@ -6,3 +6,6 @@ node_modules
 *.csv
 *.xlsx
 data/db.js
+h
+preuploadimg
+public/v/images/*
